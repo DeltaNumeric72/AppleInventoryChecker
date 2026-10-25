@@ -1,7 +1,6 @@
 // Apple pickup-availability client.
 
-import { findStore } from "./catalog.ts";
-import type { Hit } from "./settings.ts";
+import type { PartStock } from "./stock.ts";
 
 export type FetchFn = typeof fetch;
 type Sleep = (ms: number) => Promise<void>;
@@ -141,17 +140,22 @@ export async function fetchPickup(
 }
 
 /**
- * Check the selected stores for the selected parts. The first request is
- * anchored at the first selected store (returns ~12 nearby stores); any
- * selected store still missing gets its own follow-up request.
+ * Fetch availability for the given stores and parts. The first request is
+ * anchored at the first store (returns ~12 nearby stores); any store still
+ * missing gets its own follow-up request. A failure on the first request
+ * throws; failed follow-ups just leave the store in `storesMissing`.
  */
-export async function checkStores(
+export async function fetchAllStock(
   storeIds: string[],
   parts: string[],
   opts: Opts = {},
-): Promise<{ hits: Hit[]; storesChecked: string[]; storesMissing: string[] }> {
+): Promise<{
+  stores: Record<string, Record<string, PartStock>>;
+  storesChecked: string[];
+  storesMissing: string[];
+}> {
   if (storeIds.length === 0 || parts.length === 0) {
-    return { hits: [], storesChecked: [], storesMissing: [...storeIds] };
+    return { stores: {}, storesChecked: [], storesMissing: [...storeIds] };
   }
   const seen = new Map<string, StoreAvailability>();
   const merge = (list: StoreAvailability[]) => {
@@ -164,7 +168,6 @@ export async function checkStores(
     }
   };
 
-  // A failure on the first request fails the whole check.
   merge(await fetchPickup(storeIds[0], parts, opts));
   for (const id of storeIds.slice(1)) {
     if (seen.has(id)) continue;
@@ -176,7 +179,7 @@ export async function checkStores(
     }
   }
 
-  const hits: Hit[] = [];
+  const stores: Record<string, Record<string, PartStock>> = {};
   const storesChecked: string[] = [];
   const storesMissing: string[] = [];
   for (const id of storeIds) {
@@ -186,16 +189,14 @@ export async function checkStores(
       continue;
     }
     storesChecked.push(id);
+    const out: Record<string, PartStock> = {};
     for (const part of parts) {
       const p = s.parts[part];
-      if (p?.pickupDisplay !== "available") continue;
-      hits.push({
-        storeId: id,
-        storeName: findStore(id)?.name ?? s.storeName,
-        part,
-        quote: p.quote,
-      });
+      if (!p) continue;
+      out[part] = { available: p.pickupDisplay === "available" };
+      if (p.quote !== undefined) out[part].quote = p.quote;
     }
+    stores[id] = out;
   }
-  return { hits, storesChecked, storesMissing };
+  return { stores, storesChecked, storesMissing };
 }

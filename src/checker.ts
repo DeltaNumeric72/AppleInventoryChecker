@@ -1,7 +1,14 @@
-// One stock-check run: load settings, query Apple, notify, record status.
+// One stock-check run: fetch every store, update the snapshot and history,
+// notify about watched pairs, record status.
 
-import { checkStores, type FetchFn } from "./apple.ts";
-import { PRODUCTS } from "./catalog.ts";
+import { fetchAllStock, type FetchFn } from "./apple.ts";
+import { ALL_SKUS, findStore, PRODUCTS, STORES } from "./catalog.ts";
+import {
+  appendHistory,
+  appendRestocks,
+  type HistoryEntry,
+  type RestockEvent,
+} from "./history.ts";
 import {
   formatHitsMessage,
   type NtfyConfig,
@@ -12,9 +19,17 @@ import {
   getLastRun,
   getSettings,
   type Hit,
+  pairKey,
+  parsePairKey,
   type RunStatus,
   saveLastRun,
 } from "./settings.ts";
+import {
+  diffSnapshots,
+  getSnapshot,
+  saveSnapshot,
+  type StockSnapshot,
+} from "./stock.ts";
 
 /** Send the failure warning exactly when the counter reaches this value. */
 const FAILURE_WARNING_THRESHOLD = 10;
@@ -45,43 +60,108 @@ export async function runCheck(
 
   try {
     const settings = await getSettings(kv);
-    if (
-      !settings.enabled || settings.skus.length === 0 ||
-      settings.stores.length === 0
-    ) {
-      await saveLastRun(kv, status);
-      return status;
-    }
+    const prevRun = await getLastRun(kv);
 
     try {
-      const result = await checkStores(settings.stores, settings.skus, {
-        fetchFn: deps.fetchFn,
-        sleep: deps.sleep,
-      });
-      status.hits = result.hits;
+      const result = await fetchAllStock(
+        STORES.map((s) => s.id),
+        ALL_SKUS.map((s) => s.part),
+        { fetchFn: deps.fetchFn, sleep: deps.sleep },
+      );
       status.storesChecked = result.storesChecked;
       status.storesMissing = result.storesMissing;
-      if (result.hits.length > 0 && ntfy) {
-        await notifyHits(ntfy, result.hits, deps.fetchFn, status);
+
+      // New snapshot: previous data overlaid with the stores seen this run.
+      const prevSnap = await getSnapshot(kv);
+      const next: StockSnapshot = {
+        at,
+        stores: { ...(prevSnap?.stores ?? {}) },
+      };
+      for (const [id, parts] of Object.entries(result.stores)) {
+        next.stores[id] = { checkedAt: at, parts };
+      }
+
+      const diff = diffSnapshots(prevSnap, next);
+      const events: RestockEvent[] = diff.restocks.map((r) => ({
+        at,
+        storeId: r.storeId,
+        part: r.part,
+      }));
+      if (events.length > 0) await appendRestocks(kv, events);
+
+      // Hits: available pairs that are watched (none while alerts are off).
+      if (settings.enabled) {
+        const watched = new Set(settings.watch);
+        for (const store of STORES) {
+          for (const sku of ALL_SKUS) {
+            if (!watched.has(pairKey(store.id, sku.part))) continue;
+            const p = next.stores[store.id]?.parts[sku.part];
+            if (!result.storesChecked.includes(store.id) || !p?.available) {
+              continue;
+            }
+            status.hits.push({
+              storeId: store.id,
+              storeName: store.name,
+              part: sku.part,
+              quote: p.quote,
+            });
+          }
+        }
+      }
+
+      // No notification history while alerts are off.
+      const history = settings.enabled
+        ? historyEntries(prevRun?.hits ?? [], status.hits, {
+          at,
+          checked: result.storesChecked,
+          snapshot: next,
+        })
+        : [];
+      if (history.length > 0) await appendHistory(kv, history);
+      await saveSnapshot(kv, next);
+
+      if (status.hits.length > 0 && ntfy) {
+        await notifyHits(ntfy, status.hits, deps.fetchFn, status);
+      }
+      // Remember (without re-notifying) hits at stores we couldn't check this
+      // run, so they aren't logged as a fresh in_stock when the store returns.
+      if (settings.enabled) {
+        const watched = new Set(settings.watch);
+        for (const h of prevRun?.hits ?? []) {
+          if (
+            !result.storesChecked.includes(h.storeId) &&
+            watched.has(pairKey(h.storeId, h.part))
+          ) status.hits.push(h);
+        }
       }
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      const prev = (await getLastRun(kv))?.consecutiveFailures ?? 0;
+      const prev = prevRun?.consecutiveFailures ?? 0;
       status.ok = false;
       status.error = message;
       status.consecutiveFailures = prev + 1;
+      // Keep the last known hits so the next successful run doesn't re-log them.
+      status.hits = prevRun?.hits ?? [];
       console.error("Stock check failed:", message);
-      if (status.consecutiveFailures === FAILURE_WARNING_THRESHOLD && ntfy) {
+      if (status.consecutiveFailures === FAILURE_WARNING_THRESHOLD) {
+        const warning = `Stock checker failing: ${message}`;
         try {
-          await sendNtfy(ntfy, {
-            title: `Stock checker failing: ${message}`,
-            body:
-              `The last ${FAILURE_WARNING_THRESHOLD} checks failed. Latest error: ${message}`,
-            priority: 3,
-            tags: ["warning"],
-          }, deps.fetchFn);
+          await appendHistory(kv, [{ at, kind: "warning", message: warning }]);
         } catch (err) {
-          console.error("Failed to send failure warning:", err);
+          console.error("Failed to record failure warning:", err);
+        }
+        if (ntfy) {
+          try {
+            await sendNtfy(ntfy, {
+              title: warning,
+              body:
+                `The last ${FAILURE_WARNING_THRESHOLD} checks failed. Latest error: ${message}`,
+              priority: 3,
+              tags: ["warning"],
+            }, deps.fetchFn);
+          } catch (err) {
+            console.error("Failed to send failure warning:", err);
+          }
         }
       }
     }
@@ -94,6 +174,33 @@ export async function runCheck(
     status.error = e instanceof Error ? e.message : String(e);
   }
   return status;
+}
+
+/** in_stock for newly present hits; sold_out for vanished hits in checked stores. */
+function historyEntries(
+  prevHits: Hit[],
+  hits: Hit[],
+  ctx: { at: string; checked: string[]; snapshot: StockSnapshot },
+): HistoryEntry[] {
+  const before = new Set(prevHits.map((h) => pairKey(h.storeId, h.part)));
+  const now = new Set(hits.map((h) => pairKey(h.storeId, h.part)));
+  const out: HistoryEntry[] = [];
+  for (const key of now) {
+    if (before.has(key)) continue;
+    const p = parsePairKey(key)!;
+    out.push({ at: ctx.at, kind: "in_stock", ...p });
+  }
+  for (const key of before) {
+    if (now.has(key)) continue;
+    const p = parsePairKey(key);
+    if (!p || !ctx.checked.includes(p.storeId) || !findStore(p.storeId)) {
+      continue;
+    }
+    // Still available but no longer a hit (e.g. unwatched): not a sell-out.
+    if (ctx.snapshot.stores[p.storeId]?.parts[p.part]?.available) continue;
+    out.push({ at: ctx.at, kind: "sold_out", ...p });
+  }
+  return out;
 }
 
 async function notifyHits(

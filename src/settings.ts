@@ -4,14 +4,30 @@ import { ALL_SKUS, STORES } from "./catalog.ts";
 
 export interface Settings {
   enabled: boolean;
-  skus: string[];
-  stores: string[];
+  /** Watched store/model pairs, as pair keys ("R121|MK244VC/A"). */
+  watch: string[];
+}
+
+export function pairKey(storeId: string, part: string): string {
+  return `${storeId}|${part}`;
+}
+
+export function parsePairKey(
+  key: string,
+): { storeId: string; part: string } | null {
+  const i = key.indexOf("|");
+  if (i <= 0 || i === key.length - 1) return null;
+  return { storeId: key.slice(0, i), part: key.slice(i + 1) };
+}
+
+/** Every store x every SKU, in canonical order. */
+function allPairs(): string[] {
+  return STORES.flatMap((st) => ALL_SKUS.map((sk) => pairKey(st.id, sk.part)));
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   enabled: true,
-  skus: ALL_SKUS.map((s) => s.part),
-  stores: STORES.map((s) => s.id),
+  watch: allPairs(),
 };
 
 export interface Hit {
@@ -43,24 +59,27 @@ function pickKnown(input: unknown, known: string[]): string[] {
 
 /**
  * Coerce arbitrary input (form data, stored JSON) into valid Settings.
- * Unknown parts/stores are dropped; a missing `enabled` defaults to true.
+ * Unknown pairs are dropped; a missing `enabled` defaults to true. Legacy
+ * `{skus, stores}` input becomes the product of the two lists.
  */
 export function sanitizeSettings(input: unknown): Settings {
   if (typeof input !== "object" || input === null) {
-    return {
-      ...DEFAULT_SETTINGS,
-      skus: [...DEFAULT_SETTINGS.skus],
-      stores: [...DEFAULT_SETTINGS.stores],
-    };
+    return { enabled: true, watch: [...DEFAULT_SETTINGS.watch] };
   }
   const o = input as Record<string, unknown>;
-  return {
-    enabled: typeof o.enabled === "boolean"
-      ? o.enabled
-      : o.enabled === undefined,
-    skus: pickKnown(o.skus, ALL_SKUS.map((s) => s.part)),
-    stores: pickKnown(o.stores, STORES.map((s) => s.id)),
-  };
+  const enabled = typeof o.enabled === "boolean"
+    ? o.enabled
+    : o.enabled === undefined;
+
+  let candidates: unknown = o.watch;
+  if (
+    o.watch === undefined && (Array.isArray(o.skus) || Array.isArray(o.stores))
+  ) {
+    const skus = pickKnown(o.skus, ALL_SKUS.map((s) => s.part));
+    const stores = pickKnown(o.stores, STORES.map((s) => s.id));
+    candidates = stores.flatMap((st) => skus.map((sk) => pairKey(st, sk)));
+  }
+  return { enabled, watch: pickKnown(candidates, allPairs()) };
 }
 
 export async function getSettings(kv: Deno.Kv): Promise<Settings> {
@@ -71,6 +90,22 @@ export async function getSettings(kv: Deno.Kv): Promise<Settings> {
 
 export async function saveSettings(kv: Deno.Kv, s: Settings): Promise<void> {
   await kv.set(["settings"], sanitizeSettings(s));
+}
+
+/** Flip one store/model pair in the watch list and return the new settings. */
+export async function toggleWatch(
+  kv: Deno.Kv,
+  storeId: string,
+  part: string,
+): Promise<Settings> {
+  const settings = await getSettings(kv);
+  const key = pairKey(storeId, part);
+  const watch = settings.watch.includes(key)
+    ? settings.watch.filter((k) => k !== key)
+    : [...settings.watch, key];
+  const next = sanitizeSettings({ ...settings, watch });
+  await saveSettings(kv, next);
+  return next;
 }
 
 export async function getLastRun(kv: Deno.Kv): Promise<RunStatus | null> {
