@@ -1,0 +1,9 @@
+{
+  "unstable": ["kv", "cron"],
+  "tasks": {
+    "start": "deno run --unstable-kv --unstable-cron --allow-net --allow-env main.ts",
+    "dev": "deno run --unstable-kv --unstable-cron --allow-net --allow-env --watch main.ts",
+    "test": "deno test --unstable-kv --allow-env",
+    "check": "deno check main.ts src/*.ts"
+  }
+}
