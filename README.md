@@ -22,19 +22,35 @@ app's `iPhone-Duo-intl.json` catalog).
 | 2TB     | MK2A4VC/A  | MK2C4VC/A |
 
 Stores: Eaton Centre (R121), Yorkdale (R120), Sherway Gardens (R208), Fairview
-(R333), Square One (R350), Markville (R515), Mapleview Centre (R447), Upper
-Canada Mall (R429), Conestoga (R464).
+(R333), Square One (R350), Markville (R515), Upper Canada Mall (R429), Mapleview
+Centre (R447), Conestoga (R464), Masonville (R489).
 
-All models and stores are selected by default. Change them on the settings page;
-your choices are stored in Deno KV.
+Every check fetches all 10 stores × 8 models so the dashboard stays live; you
+choose which store/model combinations send alerts.
+
+## The dashboard
+
+- **Stock**: a card per store with a colour × storage grid. A green ✓ means it's
+  available for pickup now. Tap any cell to turn its **Notify** alert on (amber
+  🔔) or off (dashed). Each card also shows the last restock, the usual restock
+  hour, and how many restocks happened this week.
+- **Recent changes**: your notification history for the last 7 days. It logs
+  when a watched combination came into stock or sold out, plus any
+  checker-failure warnings.
+- **Patterns**: when restocks happen at these 10 stores over the last 7 days,
+  broken down by colour and size, hour of day, and day of week (Toronto time),
+  with store, colour and size filters.
+- **Settings**: the master alerts switch, a bulk tool to watch or unwatch many
+  combinations at once, a test notification, and "Run check now".
 
 ## How it behaves
 
-- Runs every minute via `Deno.cron`. Each run makes one request anchored at the
-  first selected store (with nearby stores included), plus one follow-up request
-  for each selected store that wasn't in the first response, such as Conestoga.
-- While anything you've selected is available, you get **one push per minute**
-  summarising every store/model hit. Tapping it opens the Apple Store page.
+- Runs every minute via `Deno.cron`. Each run makes one request anchored at
+  Eaton Centre (with nearby stores included), plus one follow-up request for
+  each store that wasn't in the first response, such as Conestoga and
+  Masonville.
+- While any watched combination is available, you get **one push per minute**
+  summarising every hit. Tapping it opens the Apple Store page.
 - After 10 failures in a row (e.g. Apple's bot detection, HTTP 541), you get a
   single warning push. The counter resets on the next success.
 

@@ -1,7 +1,7 @@
 import {
   AppleError,
   buildPickupUrl,
-  checkStores,
+  fetchAllStock,
   fetchPickup,
   parsePickupResponse,
 } from "../src/apple.ts";
@@ -192,53 +192,70 @@ export function mockApple(requested: string[] = []): typeof fetch {
   };
 }
 
-Deno.test("checkStores: follow-up request anchored at missing R464", async () => {
+Deno.test("fetchAllStock: follow-up request anchored at missing R464", async () => {
   const requested: string[] = [];
-  const r = await checkStores(["R121", "R350", "R464"], PARTS, {
+  const r = await fetchAllStock(["R121", "R350", "R464"], PARTS, {
     fetchFn: mockApple(requested),
     sleep: noSleep,
   });
   assertEquals(requested, ["R121", "R464"]);
   assertEquals(r.storesChecked, ["R121", "R350", "R464"]);
   assertEquals(r.storesMissing, []);
-  assertEquals(r.hits.map((h) => `${h.storeId}:${h.part}`), [
-    "R121:MK264VC/A",
-    "R350:MK294VC/A",
-    "R350:MK2C4VC/A",
-    "R464:MK244VC/A",
-  ]);
-  assertEquals(r.hits[0].quote, "Today at Eaton Centre");
-  assertEquals(r.hits[0].storeName, "Eaton Centre");
+  assertEquals(Object.keys(r.stores), ["R121", "R350", "R464"]);
+  assertEquals(r.stores["R121"]["MK264VC/A"], {
+    available: true,
+    quote: "Today at Eaton Centre",
+  });
+  assertEquals(r.stores["R121"]["MK244VC/A"].available, false);
+  assertEquals(r.stores["R350"]["MK294VC/A"].available, true);
+  assertEquals(r.stores["R350"]["MK2C4VC/A"].available, true);
+  assertEquals(r.stores["R464"]["MK244VC/A"], {
+    available: true,
+    quote: "Available Today",
+  });
+  assertEquals(r.stores["R464"]["MK254VC/A"].available, false);
 });
 
-Deno.test("checkStores: filters to selected stores and parts", async () => {
+Deno.test("fetchAllStock: only requested parts are returned", async () => {
   const requested: string[] = [];
-  const r = await checkStores(["R350"], ["MK2C4VC/A"], {
+  const r = await fetchAllStock(["R350"], ["MK2C4VC/A"], {
     fetchFn: mockApple(requested),
     sleep: noSleep,
   });
   assertEquals(requested, ["R350"]);
   assertEquals(r.storesChecked, ["R350"]);
-  assertEquals(r.hits.length, 1);
-  assertEquals(r.hits[0].part, "MK2C4VC/A");
+  assertEquals(Object.keys(r.stores["R350"]), ["MK2C4VC/A"]);
+  assertEquals(r.stores["R350"]["MK2C4VC/A"].available, true);
 });
 
-Deno.test("checkStores: unreachable follow-up leaves store missing; no stores means no request", async () => {
+Deno.test("fetchAllStock: unreachable follow-up leaves store missing; no stores means no request", async () => {
   const fetchFn: typeof fetch = (input) => {
     const store = new URL(String(input)).searchParams.get("store");
     return Promise.resolve(
       store === "R121" ? json(fixture) : new Response("", { status: 500 }),
     );
   };
-  const r = await checkStores(["R121", "R464"], PARTS, {
+  const r = await fetchAllStock(["R121", "R464"], PARTS, {
     fetchFn,
     sleep: noSleep,
   });
   assertEquals(r.storesMissing, ["R464"]);
   assertEquals(r.storesChecked, ["R121"]);
+  assertEquals(Object.keys(r.stores), ["R121"]);
 
-  const none = await checkStores([], PARTS, {
+  const none = await fetchAllStock([], PARTS, {
     fetchFn: () => Promise.reject(new Error("no network")),
   });
-  assertEquals(none, { hits: [], storesChecked: [], storesMissing: [] });
+  assertEquals(none, { stores: {}, storesChecked: [], storesMissing: [] });
+});
+
+Deno.test("fetchAllStock: first request failure throws", async () => {
+  await assertRejects(
+    () =>
+      fetchAllStock(["R121"], PARTS, {
+        fetchFn: () => Promise.resolve(new Response("", { status: 500 })),
+        sleep: noSleep,
+      }),
+    AppleError,
+  );
 });
