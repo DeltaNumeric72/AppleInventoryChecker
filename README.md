@@ -43,8 +43,10 @@ your choices are stored in Deno KV.
 1. **Phone:** install the ntfy app (iOS/Android) and subscribe to a topic with a
    long, hard-to-guess name, e.g. `duo-gta-7f3k9q2x`. Anyone who knows the topic
    name can read it, so treat it like a password.
-2. **Deno Deploy:** create a new project from this GitHub repo with entrypoint
-   `main.ts`.
+2. **Deno Deploy** ([console.deno.com](https://console.deno.com)): create a new
+   app from this GitHub repo with entrypoint `main.ts`. Then, under
+   **Databases**, choose **Provision Database** → **Deno KV** and **Assign** it
+   to the app. The settings page and alert state are stored there.
 3. **Environment variables** (project settings):
 
    | Variable         | Required | Purpose                                          |
