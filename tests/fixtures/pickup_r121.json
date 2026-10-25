@@ -1,0 +1,1116 @@
+{
+  "head": {
+    "status": "200",
+    "data": {}
+  },
+  "body": {
+    "content": {
+      "pickupMessage": {
+        "errorMessageKeys": [],
+        "pickupLocationLabel": "Pickup:",
+        "stores": [
+          {
+            "storeEmail": "eatoncentre@apple.com",
+            "storeName": "Eaton Centre",
+            "city": "Toronto",
+            "state": "ON",
+            "postalCode": "M5B 2H1",
+            "storeNumber": "R121",
+            "retailStore": {
+              "storeNumber": "R121"
+            },
+            "distanceWithUnit": "1.2 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "available",
+                "pickupSearchQuote": "Available Today",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Today at Eaton Centre",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "yorkdale@apple.com",
+            "storeName": "Yorkdale",
+            "city": "Toronto",
+            "state": "ON",
+            "postalCode": "M6A 3A1",
+            "storeNumber": "R120",
+            "retailStore": {
+              "storeNumber": "R120"
+            },
+            "distanceWithUnit": "4.9 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "sherwaygardens@apple.com",
+            "storeName": "Sherway Gardens",
+            "city": "Toronto",
+            "state": "ON",
+            "postalCode": "M9C 5J1",
+            "storeNumber": "R208",
+            "retailStore": {
+              "storeNumber": "R208"
+            },
+            "distanceWithUnit": "8.6 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "fairview@apple.com",
+            "storeName": "Fairview",
+            "city": "Toronto",
+            "state": "ON",
+            "postalCode": "M2J 5A7",
+            "storeNumber": "R333",
+            "retailStore": {
+              "storeNumber": "R333"
+            },
+            "distanceWithUnit": "12.3 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "squareone@apple.com",
+            "storeName": "Square One",
+            "city": "Mississauga",
+            "state": "ON",
+            "postalCode": "L5B 2C9",
+            "storeNumber": "R350",
+            "retailStore": {
+              "storeNumber": "R350"
+            },
+            "distanceWithUnit": "16.0 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "available",
+                "pickupSearchQuote": "Available Today",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Today at Square One",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "available",
+                "pickupSearchQuote": "Available Today",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Today at Square One",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "markville@apple.com",
+            "storeName": "Markville",
+            "city": "Markham",
+            "state": "ON",
+            "postalCode": "L3R 4M9",
+            "storeNumber": "R515",
+            "retailStore": {
+              "storeNumber": "R515"
+            },
+            "distanceWithUnit": "19.7 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "mapleviewcentre@apple.com",
+            "storeName": "Mapleview Centre",
+            "city": "Burlington",
+            "state": "ON",
+            "postalCode": "L7S 2J7",
+            "storeNumber": "R447",
+            "retailStore": {
+              "storeNumber": "R447"
+            },
+            "distanceWithUnit": "23.4 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "uppercanadamall@apple.com",
+            "storeName": "Upper Canada Mall",
+            "city": "Newmarket",
+            "state": "ON",
+            "postalCode": "L3Y 4X1",
+            "storeNumber": "R429",
+            "retailStore": {
+              "storeNumber": "R429"
+            },
+            "distanceWithUnit": "27.1 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "oakvilleplace@apple.com",
+            "storeName": "Oakville Place",
+            "city": "Oakville",
+            "state": "ON",
+            "postalCode": "L6H 3R9",
+            "storeNumber": "R238",
+            "retailStore": {
+              "storeNumber": "R238"
+            },
+            "distanceWithUnit": "30.8 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "storeEmail": "vaughanmills@apple.com",
+            "storeName": "Vaughan Mills",
+            "city": "Vaughan",
+            "state": "ON",
+            "postalCode": "L4K 5W4",
+            "storeNumber": "R452",
+            "retailStore": {
+              "storeNumber": "R452"
+            },
+            "distanceWithUnit": "34.5 km",
+            "partsAvailability": {
+              "MK244VC/A": {
+                "partNumber": "MK244VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK254VC/A": {
+                "partNumber": "MK254VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK264VC/A": {
+                "partNumber": "MK264VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK274VC/A": {
+                "partNumber": "MK274VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK284VC/A": {
+                "partNumber": "MK284VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK294VC/A": {
+                "partNumber": "MK294VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2A4VC/A": {
+                "partNumber": "MK2A4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              },
+              "MK2C4VC/A": {
+                "partNumber": "MK2C4VC/A",
+                "storePickEligible": true,
+                "pickupDisplay": "unavailable",
+                "pickupSearchQuote": "Currently unavailable",
+                "messageTypes": {
+                  "regular": {
+                    "storePickupQuote": "Currently unavailable",
+                    "storePickupLabel": "Pickup:"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

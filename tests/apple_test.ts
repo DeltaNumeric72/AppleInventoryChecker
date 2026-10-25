@@ -1,0 +1,244 @@
+import {
+  AppleError,
+  buildPickupUrl,
+  checkStores,
+  fetchPickup,
+  parsePickupResponse,
+} from "../src/apple.ts";
+import { ALL_SKUS } from "../src/catalog.ts";
+import fixture from "./fixtures/pickup_r121.json" with { type: "json" };
+import {
+  assert,
+  assertEquals,
+  assertRejects,
+  assertThrows,
+} from "./_assert.ts";
+
+const PARTS = ALL_SKUS.map((s) => s.part);
+const noSleep = () => Promise.resolve();
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+
+Deno.test("buildPickupUrl: params, encoding and order", () => {
+  const url = buildPickupUrl("R121", ["MK244VC/A", "MK254VC/A"], true);
+  assertEquals(
+    url,
+    "https://www.apple.com/ca/shop/retail/pickup-message?fae=true&store=R121&searchNearby=true&little=false" +
+      "&parts.0=MK244VC%2FA&parts.1=MK254VC%2FA&mts.0=regular&mts.1=sticky&fts=true",
+  );
+  assert(buildPickupUrl("R121", [], false).includes("searchNearby=false"));
+});
+
+Deno.test("parsePickupResponse: content.pickupMessage shape", () => {
+  const stores = parsePickupResponse(fixture);
+  assertEquals(stores.length, 10);
+  const eaton = stores.find((s) => s.storeId === "R121")!;
+  assertEquals(eaton.storeName, "Eaton Centre");
+  assertEquals(eaton.city, "Toronto");
+  assertEquals(Object.keys(eaton.parts).length, 8);
+  assertEquals(eaton.parts["MK264VC/A"], {
+    pickupDisplay: "available",
+    quote: "Today at Eaton Centre",
+  });
+  assertEquals(eaton.parts["MK244VC/A"].pickupDisplay, "unavailable");
+});
+
+Deno.test("parsePickupResponse: body.stores shape and quote fallback", () => {
+  const out = parsePickupResponse({
+    body: {
+      stores: [{
+        storeNumber: "R1",
+        storeName: "X",
+        partsAvailability: {
+          "A/B": {
+            partNumber: "A/B",
+            pickupDisplay: "available",
+            pickupSearchQuote: "Soon",
+          },
+        },
+      }],
+    },
+  });
+  assertEquals(out[0].parts["A/B"], {
+    pickupDisplay: "available",
+    quote: "Soon",
+  });
+});
+
+Deno.test("parsePickupResponse: garbage throws AppleError", () => {
+  for (
+    const bad of [null, "x", {}, { body: {} }, {
+      body: { content: { pickupMessage: {} } },
+    }]
+  ) {
+    assertThrows(() => parsePickupResponse(bad), AppleError);
+  }
+  const e = assertThrows(
+    () =>
+      parsePickupResponse({
+        body: { content: { pickupMessage: { errorMessageKeys: ["bad"] } } },
+      }),
+    AppleError,
+  );
+  assert(e.message.includes("bad"));
+});
+
+Deno.test("fetchPickup: HTML body is an AppleError", async () => {
+  const fetchFn = () =>
+    Promise.resolve(
+      new Response("<html>Access Denied</html>", { status: 200 }),
+    );
+  await assertRejects(
+    () => fetchPickup("R121", PARTS, { fetchFn, sleep: noSleep }),
+    AppleError,
+  );
+});
+
+Deno.test("fetchPickup: invalid JSON and HTTP errors", async () => {
+  await assertRejects(
+    () =>
+      fetchPickup("R121", PARTS, {
+        fetchFn: () => Promise.resolve(new Response("nope")),
+        sleep: noSleep,
+      }),
+    AppleError,
+  );
+  const e = await assertRejects(
+    () =>
+      fetchPickup("R121", PARTS, {
+        fetchFn: () => Promise.resolve(new Response("", { status: 500 })),
+        sleep: noSleep,
+      }),
+    AppleError,
+  );
+  assertEquals((e as AppleError).status, 500);
+});
+
+Deno.test("fetchPickup: 541 retries then succeeds", async () => {
+  let calls = 0;
+  const sleeps: number[] = [];
+  const fetchFn: typeof fetch = () =>
+    Promise.resolve(
+      ++calls < 3 ? new Response("", { status: 541 }) : json(fixture),
+    );
+  const out = await fetchPickup("R121", PARTS, {
+    fetchFn,
+    sleep: (ms) => (sleeps.push(ms), Promise.resolve()),
+  });
+  assertEquals(calls, 3);
+  assertEquals(out.length, 10);
+  assertEquals(sleeps.length, 2);
+  assert(
+    sleeps[0] >= 2000 && sleeps[0] < 2500 && sleeps[1] >= 4000 &&
+      sleeps[1] < 4500,
+  );
+});
+
+Deno.test("fetchPickup: 541 forever gives up after 2 retries", async () => {
+  let calls = 0;
+  const fetchFn: typeof fetch = () =>
+    Promise.resolve((calls++, new Response("", { status: 541 })));
+  const e = await assertRejects(
+    () => fetchPickup("R121", PARTS, { fetchFn, sleep: noSleep }),
+    AppleError,
+  );
+  assertEquals((e as AppleError).status, 541);
+  assertEquals(calls, 3);
+});
+
+Deno.test("fetchPickup: network failure becomes AppleError", async () => {
+  const fetchFn: typeof fetch = () => Promise.reject(new TypeError("boom"));
+  await assertRejects(
+    () => fetchPickup("R121", PARTS, { fetchFn, sleep: noSleep }),
+    AppleError,
+  );
+});
+
+/** Mock that serves the fixture for R121 and a one-store response for R464. */
+export function mockApple(requested: string[] = []): typeof fetch {
+  return (input) => {
+    const store = new URL(String(input)).searchParams.get("store")!;
+    requested.push(store);
+    if (store === "R464") {
+      return Promise.resolve(json({
+        body: {
+          content: {
+            pickupMessage: {
+              stores: [{
+                storeNumber: "R464",
+                storeName: "Conestoga",
+                city: "Waterloo",
+                partsAvailability: {
+                  "MK244VC/A": {
+                    partNumber: "MK244VC/A",
+                    pickupDisplay: "available",
+                    pickupSearchQuote: "Available Today",
+                  },
+                  "MK254VC/A": {
+                    partNumber: "MK254VC/A",
+                    pickupDisplay: "unavailable",
+                  },
+                },
+              }],
+            },
+          },
+        },
+      }));
+    }
+    return Promise.resolve(json(fixture));
+  };
+}
+
+Deno.test("checkStores: follow-up request anchored at missing R464", async () => {
+  const requested: string[] = [];
+  const r = await checkStores(["R121", "R350", "R464"], PARTS, {
+    fetchFn: mockApple(requested),
+    sleep: noSleep,
+  });
+  assertEquals(requested, ["R121", "R464"]);
+  assertEquals(r.storesChecked, ["R121", "R350", "R464"]);
+  assertEquals(r.storesMissing, []);
+  assertEquals(r.hits.map((h) => `${h.storeId}:${h.part}`), [
+    "R121:MK264VC/A",
+    "R350:MK294VC/A",
+    "R350:MK2C4VC/A",
+    "R464:MK244VC/A",
+  ]);
+  assertEquals(r.hits[0].quote, "Today at Eaton Centre");
+  assertEquals(r.hits[0].storeName, "Eaton Centre");
+});
+
+Deno.test("checkStores: filters to selected stores and parts", async () => {
+  const requested: string[] = [];
+  const r = await checkStores(["R350"], ["MK2C4VC/A"], {
+    fetchFn: mockApple(requested),
+    sleep: noSleep,
+  });
+  assertEquals(requested, ["R350"]);
+  assertEquals(r.storesChecked, ["R350"]);
+  assertEquals(r.hits.length, 1);
+  assertEquals(r.hits[0].part, "MK2C4VC/A");
+});
+
+Deno.test("checkStores: unreachable follow-up leaves store missing; no stores means no request", async () => {
+  const fetchFn: typeof fetch = (input) => {
+    const store = new URL(String(input)).searchParams.get("store");
+    return Promise.resolve(
+      store === "R121" ? json(fixture) : new Response("", { status: 500 }),
+    );
+  };
+  const r = await checkStores(["R121", "R464"], PARTS, {
+    fetchFn,
+    sleep: noSleep,
+  });
+  assertEquals(r.storesMissing, ["R464"]);
+  assertEquals(r.storesChecked, ["R121"]);
+
+  const none = await checkStores([], PARTS, {
+    fetchFn: () => Promise.reject(new Error("no network")),
+  });
+  assertEquals(none, { hits: [], storesChecked: [], storesMissing: [] });
+});
